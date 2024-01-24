@@ -13,8 +13,8 @@ export class GridView {
     }
 
     updateStyle() {
-        this.canvas.style.setProperty("--nbColumns", this.controller.model.width);
-        this.canvas.style.setProperty("--nbRows", this.controller.model.height);
+        this.parentElement.style.setProperty("--nbColumns", this.controller.model.width);
+        this.parentElement.style.setProperty("--nbRows", this.controller.model.height);
         return this;
     }
 
@@ -45,7 +45,7 @@ export class GridView {
     render(tilesChanged) {
         if (!this.tilesView) {
             this.tilesView = this.createTilesDOM(this.model);
-            this.canvas.appendChild(this.gridSupContainer);
+            this.parentElement.appendChild(this.gridSupContainer);
         }
         this.updateStyle()
 

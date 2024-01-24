@@ -80,7 +80,7 @@ export class GridController {
     }
 
     checkCombo() {
-        const tilesToCheck = _.slice(this.model.tiles, this.model.height / 2 - 1, this.model.height);
+        const tilesToCheck = _.slice(this.model.tiles, this.model.height / 2, this.model.height);
         return new Set([...this.checkRows(tilesToCheck), ...this.checkColumns(tilesToCheck)]);
     }
 
