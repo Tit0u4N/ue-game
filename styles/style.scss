@@ -1,0 +1,81 @@
+#gameContainer {
+    --nbColumns: 4;
+    --nbRows: 4;
+    --cellSize: 40px;
+    width: calc(var(--nbColumns) * var(--cellSize) + 100px);
+    margin: auto;
+
+    .grid--sup-container {
+        margin: auto;
+        width: calc(var(--nbColumns) * var(--cellSize));
+        overflow: hidden;
+        height: calc(var(--nbRows) * var(--cellSize) / 2);
+    }
+
+    .grid--container {
+        display: grid;
+        grid-template-columns: repeat(var(--nbColumns), var(--cellSize));
+        grid-template-rows: repeat(var(--nbRows), var(--cellSize));
+        width: auto;
+        margin-top: calc(var(--cellSize) * var(--nbRows) / -2);
+
+
+        .grid--item {
+            position: relative;
+            transform-origin: center;
+            img {
+                width: 100%;
+                height: 100%;
+                position: relative;
+                object-fit: contain;
+
+                scale: 1;
+                inset: 0;
+            }
+
+            &--selected {
+                background-color: #f00;
+            }
+
+            &--background {
+                background-color: #000;
+            }
+        }
+    }
+}
+
+.ath--container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+
+    .ath--item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        flex : 3
+    }
+}
+
+.transition {
+
+    &--scale {
+        --transition-scale-duration: 500ms;
+        --transition-scale-timing-function: ease-in-out;
+        transition: scale var(--transition-scale-duration) var(--transition-scale-timing-function);
+    }
+
+    &--inset {
+        --transition-inset-duration: 500ms;
+        --transition-inset-timing-function: ease-in-out;
+        transition: inset var(--transition-inset-duration) var(--transition-inset-timing-function);
+    }
+
+    &--inset.transition--scale {
+        transition : scale var(--transition-scale-duration) var(--transition-scale-timing-function), inset var(--transition-inset-duration) var(--transition-inset-timing-function);
+    }
+
+}
