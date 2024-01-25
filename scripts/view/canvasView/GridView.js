@@ -7,23 +7,39 @@ export class GridView {
         this.model = model;
         this.controller = controller;
         this.tilesView = null;
+
+        this.ctx = this.canvas.getContext("2d");
     }
 
     createTilesCanvas() {
         const temp = [];
+
         this.model.tiles.flat().forEach((tileModel, index) => {
             temp.push(new TileView(tileModel, this, index));
         })
+
+        this.canvas.addEventListener("click", (event) => {
+            const rect = this.canvas.getBoundingClientRect();
+            const x = Math.floor((event.clientX - rect.left) / 40);
+            const y = Math.floor((event.clientY - rect.top) / 40);
+            const tileView = this.getTileView(x, y);
+            if (!tileView) return;
+            this.controller.selectTile(tileView);
+        })
+
         return temp;
     }
 
-    getTileView(x, y) {
+    getTileView(y, x) {
         return this.tilesView.find(tileView => tileView.x === x && tileView.y === y);
     }
 
     render(tilesChanged) {
         if (!this.tilesView) {
             this.tilesView = this.createTilesCanvas(this.model);
+            for (let tileView of this.tilesView) {
+                tileView.render();
+            }
         }
 
         if (tilesChanged) {

@@ -1,10 +1,10 @@
-import {TransitionHandler} from "./TransitionHandler";
-
 const TILE_SIZE = 40;
 
 export class TileView {
 
-    constructor(tileModel, gridView, index) {
+    static assets;
+
+    constructor(tileModel, gridView) {
         this.tileModel = tileModel;
         this.gridModel = tileModel.gridModel;
         this.gridController = gridView.controller;
@@ -12,50 +12,72 @@ export class TileView {
         this.y = tileModel.y;
         this.gridView = gridView;
 
-        this.tileDOM = this.createTileDOM(index);
+        this.createTileDOM()
+        this.ctx = this.gridView.ctx;
 
         this.isSelect = false;
     }
 
-    createTileDOM(index) {
-        const temp = document.createElement("div");
-        temp.classList.add("grid--item");
-        temp.setAttribute("item-index", index);
-        temp.innerHTML = `<img src="${this.getImgUrl()}" alt="${this.tileModel.type.name}" style="inset: 0 0 0 0"/>`
-
-
-        return temp;
+    createTileDOM() {
+        this.img = new Image(TILE_SIZE, TILE_SIZE);
+        this.img.src = this.getImgUrl();
     }
 
-    render() {
-        this.tileModel = this.gridModel.tiles[this.x][this.y];
-        if (!this.tileModel) {
-            this.toggleVisibility(false);
-            return;
+    updateCoordsFromModel() {
+        if (!this.tileModel) return this;
+        this.x = this.tileModel.x;
+        this.y = this.tileModel.y;
+        return this;
+    }
+
+    render(x = null,y = null) {
+        if (!this.tileModel) return;
+        if (this.isSelect) this.setBackground("red");
+        this.img.src = this.getImgUrl();
+        this.img.onload = () => {
+            if (x !== null && y !== null) {
+                this.ctx.drawImage(this.img, y, x)
+            } else {
+                this.ctx.drawImage(this.img, this.y * TILE_SIZE, this.x * TILE_SIZE)
+            }
+        }
+    }
+
+    async renderSwap() {
+
+        this.toggleSelect(false).translateTo(this.tileModel.x, this.tileModel.y, 1000, () => this.updateCoordsFromModel())
+    }
+
+    async translateTo(x, y, duration = 1000, callBackFunction) {
+        if (this.x === x) {
+            for (let i = y * TILE_SIZE; i <= TILE_SIZE; i++) {
+                this.render(x, i )
+                window.requestAnimationFrame(() => this.render(x, y))
+            }
+        } else if (this.y === y) {
+            for (let i = x * TILE_SIZE; i <= TILE_SIZE; i++) {
+                this.render(i, y)
+                window.requestAnimationFrame(() => this.render(x, y))
+            }
         }
 
-        this.toggleSelect(false).updateImage().toggleVisibility(true)
-    }
+        callBackFunction();
 
-    async renderSwap(xToSwap, yToSwap) {
-        this.tileModel = this.gridModel.tiles[this.x][this.y];
-        this.toggleSelect(false)
-        this.translateImgTo(xToSwap, yToSwap, 1000, () => this.updateImage())
     }
 
     async renderCombo(centerTile) {
-        this.scaleImgTo(0, 750)
-        this.translateImgTo(centerTile.x, centerTile.y, 500, () => this.toggleVisibility(false))
+        // this.scaleImgTo(0, 750)
+        // this.translateImgTo(centerTile.x, centerTile.y, 500, () => this.toggleVisibility(false))
     }
 
     async renderFall(fallData) {
-        this.tileModel = this.gridModel.tiles[this.x][this.y];
-        if (fallData === 0 && this.tileModel) {
-            setTimeout(() => this.toggleVisibility(true).updateImage(), 1000)
-            return
-        }
-
-        this.translateImgTo(fallData.actualX, this.y, 1000, () => this.tileModel ? this.toggleVisibility(true) .updateImage(): null)
+        // this.tileModel = this.gridModel.tiles[this.x][this.y];
+        // if (fallData === 0 && this.tileModel) {
+        //     setTimeout(() => this.toggleVisibility(true).updateImage(), 1000)
+        //     return
+        // }
+        //
+        // this.translateImgTo(fallData.actualX, this.y, 1000, () => this.tileModel ? this.toggleVisibility(true) .updateImage(): null)
     }
 
       async renderRefill() {
@@ -102,23 +124,19 @@ export class TileView {
 
     // Utils
     getImgUrl() {
-        return "assets/images/" + this.tileModel.type.name + ".png";
+        return "/assets/images/" + this.tileModel.type.name + ".png";
     }
 
     // View update
     setBackground(color) {
-        if (color === null) {
-            this.tileDOM.style.background = "";
-        } else {
-            color = color || "red";
-            this.tileDOM.style.background = color;
-        }
-        return this;
+        this.ctx.fillStyle = color;
+        this.ctx.fillRect(this.y * TILE_SIZE, this.x * TILE_SIZE, TILE_SIZE, TILE_SIZE);
     }
 
     toggleSelect(selected) {
         this.isSelect = selected;
-        this.tileDOM.classList.toggle("grid--item--selected", this.isSelect);
+        this.ctx.clearRect(this.y * TILE_SIZE, this.x * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        this.render();
         return this;
     }
 
