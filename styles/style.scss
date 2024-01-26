@@ -9,8 +9,7 @@
         margin: auto;
         width: calc(var(--nbColumns) * var(--cellSize));
         overflow: hidden;
-        height: calc(var(--nbRows) * var(--cellSize) / 2);
-    }
+        height: calc(var(--nbRows) * var(--cellSize) / 2);}
 
     .grid--container {
         display: grid;
@@ -19,11 +18,15 @@
         width: auto;
         margin-top: calc(var(--cellSize) * var(--nbRows) / -2);
 
-
         .grid--item {
             position: relative;
             transform-origin: center;
+            padding: 2px;
+
             img {
+                background-color: aliceblue;
+                border-radius: 7px;
+                box-shadow: #99a4b0 0px 0px 2px 0px;
                 width: 100%;
                 height: 100%;
                 position: relative;
@@ -35,7 +38,7 @@
 
             &--selected {
                 img {
-                    scale: 1.1;
+                    scale: 1.15 !important;
                 }
             }
 
@@ -50,7 +53,6 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
-
 
     .ath--item {
         display: flex;
@@ -80,4 +82,55 @@
         transition : scale var(--transition-scale-duration) var(--transition-scale-timing-function), inset var(--transition-inset-duration) var(--transition-inset-timing-function);
     }
 
+}
+
+
+
+// BackGround
+@keyframes animate {
+    0% {
+        transform: translateY(50px) rotate(0deg);
+        opacity: 1;
+        border-radius: 0;
+    }
+    100% {
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+        border-radius: 50%;
+    }
+}
+
+.background {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    background: #4e54c8;
+    overflow: hidden;
+
+    li {
+        position: absolute;
+        display: block;
+        list-style: none;
+        width: 20px;
+        height: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        animation: animate 19s linear infinite;
+
+        // Utilisation d'une boucle pour créer les styles pour chaque enfant
+        @for $i from 0 through 40 {
+            &:nth-child(#{$i}) {
+                left: random(100) + 1%;
+                bottom: random(100) + 100 * -1px;
+                $size: random(50) + 30px;
+                width: $size;
+                height: $size;
+                animation-duration: random(40) + 10s;
+                animation-delay: random(50s) + 1s;
+            }
+        }
+    }
 }
