@@ -52,12 +52,11 @@ export class TileView {
             return;
         }
 
-        this.toggleSelect(false).updateImage().toggleVisibility(true)
+        this.updateImage().toggleVisibility(true)
     }
 
     async renderSwap(xToSwap, yToSwap) {
         this.tileModel = this.gridModel.tiles[this.x][this.y];
-        this.toggleSelect(false)
         this.translateImgTo(xToSwap, yToSwap, 1000, () => this.updateImage())
     }
 
@@ -119,7 +118,8 @@ export class TileView {
     }
 
     // Utils
-    getImgUrl() {
+    getImgUrl(hightlighted = false) {
+        if (hightlighted) return "assets/images/" + this.tileModel.type.name + "-Highlighted@2x.png";
         return "assets/images/" + this.tileModel.type.name + ".png";
     }
 
@@ -136,21 +136,18 @@ export class TileView {
 
     toggleSelect(selected) {
         this.isSelect = selected;
-        this.tileDOM.classList.toggle("grid--item--selected", this.isSelect);
+        this.updateImage(selected)
+        this.tileDOM.classList.toggle("grid--item--selected", selected);
         return this;
     }
 
-    updateImage() {
-        this.imgDOM.src = this.getImgUrl();
+    updateImage(hightlighted = false) {
+        this.imgDOM.src = this.getImgUrl(hightlighted);
         return this;
     }
 
     toggleVisibility(visible) {
         this.tileDOM.style.visibility = visible ? "visible" : "hidden";
         return this;
-    }
-
-    getDOMBounds() {
-        return this.imgDOM.getBoundingClientRect();
     }
 }

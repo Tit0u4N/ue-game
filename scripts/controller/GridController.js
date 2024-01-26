@@ -62,16 +62,16 @@ export class GridController {
             } else {
                 // Swap the tiles
                 this.ATHController.addSwap();
+                this.selectedTile.toggleSelect(false);
+                tileView.toggleSelect(false);
                 await this.swapTiles(tileModel, this.selectedTile.tileModel);
                 await this.doRound([tileModel, this.selectedTile.tileModel]);
                 this.selectedTile = null;
             }
-            tileView.toggleSelect(false);
         } else {
             this.selectedTile = tileView;
             tileView.toggleSelect(true);
         }
-
     }
 
     async swapTiles(tile1, tile2) {

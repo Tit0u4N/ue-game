@@ -34,7 +34,9 @@
             }
 
             &--selected {
-                background-color: #f00;
+                img {
+                    scale: 1.1;
+                }
             }
 
             &--background {

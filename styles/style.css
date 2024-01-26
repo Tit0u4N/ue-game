@@ -30,8 +30,8 @@
   scale: 1;
   inset: 0;
 }
-#gameContainer .grid--container .grid--item--selected {
-  background-color: #f00;
+#gameContainer .grid--container .grid--item--selected img {
+  scale: 1.1;
 }
 #gameContainer .grid--container .grid--item--background {
   background-color: #000;
