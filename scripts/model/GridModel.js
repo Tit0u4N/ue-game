@@ -2,14 +2,17 @@ import {TileModel} from "./TileModel";
 
 export class GridModel {
 
-    constructor(width, height) {
+    constructor(width = 5, height = 5) {
+        this.setGameParams(width, height);
+    }
+
+    setGameParams(width, height) {
         this.width = width;
         this.height = height * 2 || width * 2;
-        this.tiles = [];
-        this.init();
     }
 
     init() {
+        this.tiles = [];
         for (let x = 0; x < this.height; x++) {
             this.tiles[x] = [];
             for (let y = 0; y < this.width; y++) {

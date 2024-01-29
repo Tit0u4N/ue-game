@@ -1,6 +1,6 @@
 import {TransitionHandler} from "./TransitionHandler";
 
-const TILE_SIZE = 40;
+export const TILE_SIZE = 60;
 
 export class TileView {
 
@@ -13,7 +13,8 @@ export class TileView {
         this.gridView = gridView;
 
         this.tileDOM = this.createTileDOM(index);
-        this.imgDOM = this.tileDOM.querySelector("img");
+        this.imgDOMConainer = this.tileDOM.querySelector(".img--container");
+        this.imgDOM = this.imgDOMConainer.querySelector("img");
         this.gridView.gridDOM.appendChild(this.tileDOM);
 
         this.isSelect = false;
@@ -23,7 +24,7 @@ export class TileView {
         const temp = document.createElement("div");
         temp.classList.add("grid--item");
         temp.setAttribute("item-index", index);
-        temp.innerHTML = `<img src="${this.getImgUrl()}" alt="${this.tileModel.type.name}" style="inset: 0 0 0 0"/>`
+        temp.innerHTML = `<div class="img--container"><img src="${this.getImgUrl()}" alt="${this.tileModel.type.name}"/></div>`
 
         temp.addEventListener("click", async () => {
             await this.gridController.selectTile(this);
@@ -82,10 +83,10 @@ export class TileView {
     // Animation
 
     async translateImgTo(x, y, duration = 1000, callBackFunction, autoRemoveDuration = duration) {
-        const transition = new TransitionHandler(this.imgDOM, "inset", duration, "ease-in-out")
+        const transition = new TransitionHandler(this.imgDOMConainer, "inset", duration, "ease-in-out")
         x = x - this.x;
         y = y - this.y;
-        this.imgDOM.style.inset = `${x * TILE_SIZE}px 0px 0px ${y * TILE_SIZE}px`;
+        this.imgDOMConainer.style.inset = `${x * TILE_SIZE}px 0px 0px ${y * TILE_SIZE}px`;
         if (autoRemoveDuration > 0) {
             setTimeout(() => {
                 transition.removeTransition();
@@ -97,12 +98,12 @@ export class TileView {
     }
 
     resetImgTranslate() {
-        this.imgDOM.style.inset = `0px 0px 0px 0px`;
+        this.imgDOMConainer.style.inset = `0px 0px 0px 0px`;
     }
 
     async scaleImgTo(scale, duration = 1000, callBackFunction, autoRemoveDuration = duration) {
-        const transition = new TransitionHandler(this.imgDOM, "scale", duration, "ease-in-out")
-        this.imgDOM.style.scale = scale;
+        const transition = new TransitionHandler(this.imgDOMConainer, "scale", duration, "ease-in-out")
+        this.imgDOMConainer.style.scale = scale;
         if (autoRemoveDuration > 0) {
             setTimeout(() => {
                 transition.removeTransition();
@@ -114,7 +115,7 @@ export class TileView {
     }
 
     resetImgScale() {
-        this.imgDOM.style.scale = `1`;
+        this.imgDOMConainer.style.scale = `1`;
     }
 
     // Utils

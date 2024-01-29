@@ -9,7 +9,16 @@ export class ATHView {
         this.nbSwapDOM = this.ATHDOM.querySelector(".ath--nb-swap .value");
     }
 
+    toggleHide(hide) {
+        if (hide) {
+            this.ATHDOM.classList.add("hide");
+        } else {
+            this.ATHDOM.classList.remove("hide");
+        }
+    }
+
     render() {
+        this.toggleHide(false)
         this.parentDOMView.insertBefore(this.ATHDOM, this.parentDOMView.firstChild);
         this.updateScore().updateTime().updateNbSwap();
     }

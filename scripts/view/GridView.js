@@ -1,4 +1,4 @@
-import {TileView} from "./TileView";
+import {TILE_SIZE, TileView} from "./TileView";
 
 export class GridView {
 
@@ -15,6 +15,7 @@ export class GridView {
     updateStyle() {
         this.parentElement.style.setProperty("--nbColumns", this.controller.model.width);
         this.parentElement.style.setProperty("--nbRows", this.controller.model.height);
+        this.parentElement.style.setProperty("--tileSize", TILE_SIZE + "px");
         return this;
     }
 

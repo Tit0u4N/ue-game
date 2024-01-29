@@ -5,6 +5,12 @@ export class ATHModel {
         this.score = score;
     }
 
+    setGameParams(nbSwap = 0, time = 0, score = 0) {
+        this.nbSwap = nbSwap;
+        this.time = time;
+        this.score = score;
+    }
+
     getNbSwap() {
         return this.nbSwap;
     }

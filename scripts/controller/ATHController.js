@@ -9,6 +9,15 @@ export class ATHController {
         this.ATHView = ATHView;
     }
 
+    setGameMode(mode) {
+        if (mode === "speed") {
+            this.mode = "speed";
+        } else if (mode === "classic") {
+            this.mode = "classic";
+        }
+        return this;
+    }
+
     addScore(nbCombo) {
         this.ATHModel.score += nbCombo * 10;
         this.ATHView.updateScore();

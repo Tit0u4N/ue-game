@@ -2,9 +2,19 @@ import {GridModel} from "./GridModel";
 import {ATHModel} from "./ATHModel";
 
 export class MainModel {
-    constructor(gridWidth, gridHeight = null, nbType = 0, nbSwap = 0, time = 0) {
-        this.gridModel = new GridModel(gridWidth, gridHeight, nbType);
-        this.ATHModel = new ATHModel(nbSwap, time);
+    constructor() {
+        this.gridModel = new GridModel();
+        this.ATHModel = new ATHModel();
+    }
+
+    setGameParams(gridWidth, gridHeight, score = 0, nbSwap = 0, time = 0) {
+        this.gridModel.setGameParams(gridWidth, gridHeight);
+        this.ATHModel.setGameParams(nbSwap, time, score);
+        return this;
+    }
+
+    init() {
+        this.gridModel.init();
     }
 
     getGridModel() {

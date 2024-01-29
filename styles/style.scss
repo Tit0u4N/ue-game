@@ -1,40 +1,97 @@
+:root {
+    --glossy-background:rgba(255, 255, 255, 0.18);
+    --glossy-shadow:  0 4px 30px rgba(0, 0, 0, 0.1);
+    --glossy-backdrop-filter:blur(6.3px);
+    --glossy-border: 1px solid rgba(255, 255, 255, 0.24);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+
+    font-family : "Poppins", sans-serif;
+
+    h1, h2, h3, h4, h5, h6 {
+        color: white;
+    }
+
+    p, span {
+        color: #ded6d6;
+    }
+}
+
+.hide {
+    display: none !important;
+}
+
+.body {
+    z-index: 2;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+}
+
 #gameContainer {
     --nbColumns: 4;
     --nbRows: 4;
-    --cellSize: 40px;
-    width: calc(var(--nbColumns) * var(--cellSize) + 100px);
+    --tileSize: 40px;
     margin: auto;
+    height: 80%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
     .grid--sup-container {
         margin: auto;
-        width: calc(var(--nbColumns) * var(--cellSize));
+        width: calc(var(--nbColumns) * var(--tileSize));
         overflow: hidden;
-        height: calc(var(--nbRows) * var(--cellSize) / 2);}
+        height: calc(var(--nbRows) * var(--tileSize) / 2);}
 
     .grid--container {
         display: grid;
-        grid-template-columns: repeat(var(--nbColumns), var(--cellSize));
-        grid-template-rows: repeat(var(--nbRows), var(--cellSize));
+        grid-template-columns: repeat(var(--nbColumns), var(--tileSize));
+        grid-template-rows: repeat(var(--nbRows), var(--tileSize));
         width: auto;
-        margin-top: calc(var(--cellSize) * var(--nbRows) / -2);
+        margin-top: calc(var(--tileSize) * var(--nbRows) / -2);
 
         .grid--item {
             position: relative;
             transform-origin: center;
             padding: 2px;
 
-            img {
-                background-color: aliceblue;
+            .img--container {
                 border-radius: 7px;
-                box-shadow: #99a4b0 0px 0px 2px 0px;
+                background: var(--glossy-background);
+                box-shadow: var(--glossy-shadow);
+                backdrop-filter: var(--glossy-backdrop-filter);
+                -webkit-backdrop-filter: var(--glossy-backdrop-filter);
+                border: var(--glossy-border);
                 width: 100%;
                 height: 100%;
-                position: relative;
-                object-fit: contain;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                // Animation default state
 
                 scale: 1;
                 inset: 0;
+                position: relative;
+
+                img {
+                    position: relative;
+                    object-fit: contain;
+                    width: 100%;
+                    height: 100%;
+
+                    // Animation default state
+                    scale: 1;
+                    inset: 0;
+                }
             }
+
 
             &--selected {
                 img {
@@ -46,21 +103,6 @@
                 background-color: #000;
             }
         }
-    }
-}
-
-.ath--container {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-
-    .ath--item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-
-        flex : 3
     }
 }
 
@@ -86,10 +128,124 @@
 
 
 
+.glass-panel {
+    border-radius: 15px;
+    background: var(--glossy-background);
+    box-shadow: var(--glossy-shadow);
+    backdrop-filter: var(--glossy-backdrop-filter);
+    -webkit-backdrop-filter: var(--glossy-backdrop-filter);
+    border: var(--glossy-border);
+    padding: 10px 20px;
+    width: 70vw;
+    margin: auto;
+
+    &.ath--container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+
+        .ath--item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+
+            flex : 3
+        }
+    }
+
+}
+
+.glass-button {
+    display: inline-block;
+    padding: 24px 32px;
+    text-decoration: none;
+    border-radius: 15px;
+    background-color: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(30px);
+    color: rgba(255,255,255,0.8);
+    font-size: 14px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+
+    &.grid-size {
+        padding: 0;
+        width: 40px;
+        aspect-ratio: 1/1;
+    }
+
+    &.control-gamemode {
+        padding: 5px;
+        width: 60px;
+        aspect-ratio: 1/1;
+        border-radius: 15px;
+        background-color: rgba(255,255,255,0.2);
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    &:hover {
+        background-color: rgba(255,255,255,0.2);
+    }
+
+    &.selected{
+        background-color: rgba(255,255,255,0.4);
+        border: 2px solid rgba(255, 255, 255);
+    }
+
+    &#start-game {
+        font-size: 25px;
+        margin: 20px 0;
+    }
+}
+
+.glass-toolbar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+
+    > div {
+        width: 80%;
+        justify-content: space-around;
+        display: flex;
+    }
+}
+
+.params-container {
+    margin-top: 10px;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &.counter {
+        width: 100px;
+        font-size: 20px;
+
+        > div, button {
+            width: 30px;
+            text-align: center;
+            border-radius: 7px;
+        }
+
+        > button {
+            font-size: 20px;
+            line-height: 18px;
+        }
+    }
+}
+
 // BackGround
 @keyframes animate {
     0% {
-        transform: translateY(50px) rotate(0deg);
+        transform: translateY(200px) rotate(0deg);
         opacity: 1;
         border-radius: 0;
     }
@@ -101,6 +257,7 @@
 }
 
 .background {
+    z-index: 1;
     position: fixed;
     width: 100vw;
     height: 100vh;
@@ -112,6 +269,7 @@
     overflow: hidden;
 
     li {
+        transform: translateY(200px);
         position: absolute;
         display: block;
         list-style: none;

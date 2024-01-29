@@ -9,10 +9,17 @@ export class GridController {
 
         this.canSelect = true;
         this.started = false;
+        this.mode = "speed"
     }
 
     setView(view) {
         this.view = view;
+    }
+
+    setGameMode(rules) {
+        if (rules === "speed") this.mode = "speed";
+        else if (rules === "classic") this.mode = "classic";
+        return this;
     }
 
     init() {

@@ -2,17 +2,15 @@ import {MainModel} from "./model/MainModel";
 import {MainController} from "./controller/MainController";
 import {MainView} from "./view/MainView";
 
-import * as CanvasView from "./view/canvasView/MainView";
+const gamesParams = {
+    nbRows : 5,
+    nbColumns : 5,
+    mode : "speed",
+}
 
 
-const ModelDOM = new MainModel(5);
+const ModelDOM = new MainModel();
 const ControllerDOM = new MainController(ModelDOM);
 const ViewDOM = new MainView(document.getElementById("gameContainer"), ControllerDOM, ModelDOM);
 
-ControllerDOM.setView(ViewDOM).init();
-
-const ModelCanvas = new MainModel(5);
-const ControllerCanvas = new MainController(ModelCanvas);
-const ViewCanvas = new CanvasView.MainView(document.getElementById("gameContainerCanvas"), ControllerCanvas, ModelCanvas);
-
-ControllerCanvas.setView(ViewCanvas).init();
+ControllerDOM.setView(ViewDOM)
