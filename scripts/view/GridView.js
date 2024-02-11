@@ -63,55 +63,14 @@ export class GridView {
         return 1000;
     }
 
-    renderComboTiles(tilesComboSet) {
-        this.parseByChunk(Array.from(tilesComboSet)).forEach(chunk => {
+    renderComboTiles(chunks) {
+        chunks.forEach(chunk => {
             chunk.tiles.forEach(tile => {
                 this.getTileView(tile.x, tile.y).renderCombo(chunk.center)
             })
         })
 
         return 750;
-    }
-
-    parseByChunk(tilesCombo) {
-        const chunks = [];
-        while (tilesCombo.length > 0) {
-            let i = 1;
-            const tileStart = tilesCombo[0];
-            const tempChunk = [tileStart];
-            const indexToRemove = [0];
-            while (i < tilesCombo.length) {
-                if (this.isAdjacentToChunk(tempChunk, tilesCombo[i]) && tileStart.isSameType(tilesCombo[i])) {
-                    tempChunk.push(tilesCombo[i]);
-                    indexToRemove.push(i);
-                }
-                i++;
-            }
-            chunks.push(this.createChunk(tempChunk));
-            indexToRemove.reverse()
-            for (let index of indexToRemove) {
-                tilesCombo.splice(index, 1);
-            }
-        }
-        return chunks
-    }
-
-    createChunk(arrayChunk) {
-        let center = {tile: null, score: 0};
-        for (let tile of arrayChunk) {
-            let tileScore = tile.scoreAdjacentSameTypeTiles();
-            if (center.score < tileScore)
-                center = {tile: tile, score: tileScore};
-        }
-        return {center: center.tile, tiles: arrayChunk};
-    }
-
-    isAdjacentToChunk(chunk, tile) {
-        for (let tileChunk of chunk) {
-            if (tileChunk.isAdjacent(tile))
-                return true;
-        }
-        return false;
     }
 
     renderFallingTiles(fallingTiles) {
