@@ -1,5 +1,4 @@
-import _ from "../lib/lodash.js";
-
+import _ from "lodash";
 export class GridController {
     constructor(model, ATHController) {
         this.model = model;

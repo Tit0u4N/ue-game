@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
     "vite": "^5.0.12"
   },
   "scripts": {
