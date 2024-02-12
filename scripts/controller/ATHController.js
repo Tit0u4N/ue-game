@@ -18,8 +18,20 @@ export class ATHController {
         return this;
     }
 
-    addScore(nbCombo) {
-        this.ATHModel.score += nbCombo * 10;
+    addScore(chunks, round = 1) {
+        let score = 0;
+        chunks.forEach(chunk => {
+            if (chunk.tiles.length <= 3) {
+                score += chunk.tiles.length * 10;
+            } else if (chunk.tiles.length <= 4) {
+                score += chunk.tiles.length * 15;
+            } else if (chunk.tiles.length <= 5) {
+                score += chunk.tiles.length * 20;
+            } else {
+                score += chunk.tiles.length * 25;
+            }
+        });
+        this.ATHModel.score += score * round;
         this.ATHView.updateScore();
     }
 
@@ -38,5 +50,9 @@ export class ATHController {
     init() {
         if (!this.ATHView) throw new Error("ATHView is not defined");
         this.ATHView.render();
+    }
+
+    stopTimer() {
+        clearInterval(this.timer);
     }
 }
