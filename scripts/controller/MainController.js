@@ -32,6 +32,7 @@ export class MainController {
     }
 
     init() {
+        this.MainView.toggleHideResetButton();
         this.MainModel.setGameParams(this.gameParams.nbColumns, this.gameParams.nbRows).init();
         this.gridController.setGameMode(this.gameParams.mode).init();
         this.ATHController.setGameMode(this.gameParams.mode).init();
@@ -64,4 +65,5 @@ export class MainController {
         }
         return this.gameParams.nbColumns;
     }
+
 }

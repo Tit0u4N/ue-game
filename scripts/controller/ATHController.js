@@ -10,8 +10,8 @@ export class ATHController {
     }
 
     setGameMode(mode) {
-        if (mode === "speed") {
-            this.mode = "speed";
+        if (mode === "infinity") {
+            this.mode = "infinity";
         } else if (mode === "classic") {
             this.mode = "classic";
         }

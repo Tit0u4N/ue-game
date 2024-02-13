@@ -12,6 +12,7 @@ export class MainView {
         this.initGameModePanel()
         this.initGridSizePanel()
         this.initStartButton()
+        // this.initResetButton()
     }
 
     getGridView() {
@@ -85,4 +86,18 @@ export class MainView {
         }
     }
 
+    toggleHideResetButton(hide) {
+        if (hide) {
+            this.resetButton.classList.add("hide")
+        } else {
+            this.resetButton.classList.remove("hide")
+        }
+    }
+    initResetButton() {
+        this.resetButton = document.getElementById("reset-game")
+        this.resetButton.addEventListener('click', (e) => {
+            this.mainController.reset()
+            this.toggleHideControlPanel(false)
+        })
+    }
 }
